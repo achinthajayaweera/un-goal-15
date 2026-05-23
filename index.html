@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UN Goal 15 - Life on Land</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <style>
+    /* Content Cards Styling */
+    .content-cards {
+      padding: 60px 20px;
+      background-color: #f5f9f8;
+    }
+    
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 60, 50, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 60, 50, 0.2);
+    }
+    
+    .card-image {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
+    
+    .card-content {
+      padding: 25px;
+    }
+    
+    .card-content h3 {
+      color: #003329;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .card-content p {
+      color: #66807a;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .card-link {
+      display: inline-block;
+      color: #00a6d6;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .card-link:hover {
+      color: #003329;
+      text-decoration: underline;
+    }
+    
+    /* Animation for cards */
+    .content-card {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .content-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <!-- Updated Header to match other pages -->
+  <header class="sticky-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="United Nations Logo" class="un-logo">
+    </div>
+    
+    <nav class="navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="Volunteer.html">Volunteer</a>
+      <a href="Table.html" class="active">Table</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="Sitemap.html">Sitemap</a>
+      <a href="team.html">Team</a>
+    </nav>
+    
+    <div class="profile-section">
+      <a href="userprofile.html" class="profile-link">
+        <img src="profile-pic.jpeg" alt="Profile">
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="parallax">
+    <img src="hill1.png" id="hill1" />
+    <img src="hill2.png" id="hill2" />
+    <img src="hill3.png" id="hill3" />
+    <img src="hill4.png" id="hill4" />
+    <img src="hill5.png" id="hill5" />
+    <img src="tree.png" id="tree" />
+    <h2 id="text">Life on land</h2>
+    <img src="leaf.png" id="leaf" />
+    <img src="plant.png" id="plant" />
+  </section>
+
+  <!-- Main Content Section -->
+  <section class="sec">
+    <h2>UN Goal 15 – Life on Land</h2>
+    <p>
+      UN Sustainable Development Goal 15 – Life on Land is a global mission to protect, restore, and promote the sustainable use of terrestrial ecosystems. This includes responsibly managing forests, fighting desertification, reversing land degradation, and halting the alarming loss of biodiversity. Land ecosystems—such as forests, grasslands, wetlands, and mountains—are essential to human life, providing food, clean water, air, and shelter. However, overexploitation, deforestation, pollution, and climate change have put these systems under serious threat, with devastating consequences for both nature and society.
+    </p><br />
+    <p>
+      Forests alone are home to more than 80% of terrestrial species and support the livelihoods of over a billion people worldwide. Yet, each year, millions of hectares are lost due to illegal logging, unsustainable agriculture, and urban expansion. The degradation of land and biodiversity contributes to climate change and increases the risk of natural disasters like floods and droughts. UN Goal 15 calls for global action to manage these vital ecosystems more responsibly—through reforestation, land rehabilitation, and stronger conservation policies—to ensure long-term balance between nature and human needs.
+    </p><br />
+    <p>
+      Beyond environmental protection, Goal 15 has a direct impact on achieving many other global goals, such as ending hunger, improving health, and reducing poverty. Healthy ecosystems support sustainable agriculture, clean water supplies, and resilient communities. By educating communities, promoting inclusive land management practices, and enforcing environmental laws, the goal aims to build a future where people and planet thrive together. Achieving Goal 15 is not just about preserving nature—it's about securing a healthy, livable planet for generations to come.
+    </p>
+  </section>
+
+  <!-- Content Cards Section -->
+  <section class="content-cards">
+    <div class="cards-container">
+      <!-- Biodiversity Card -->
+      <div class="content-card">
+        <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Biodiversity" class="card-image">
+        <div class="card-content">
+          <h3>Biodiversity & Ecosystems</h3>
+          <p>Current negative trends in biodiversity will undermine progress toward 80% of SDG targets. We're losing species at 1,000 times the natural rate.</p>
+          <a href="content_biodiversity.html" class="card-link">Explore Biodiversity →</a>
+        </div>
+      </div>
+      
+  <!-- Desertification Card -->
+  <div class="content-card">
+    <img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Desertification" class="card-image">
+    <div class="card-content">
+      <h3>Combat Desertification</h3>
+      <p>Over 1.5 billion people depend on degrading land. Desertification may displace 700 million people by 2050.</p>
+      <a href="content_desertification.html" class="card-link">Explore Solutions →</a>
+    </div>
+  </div>
+
+      <!-- Forests Card -->
+      <div class="content-card">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Forests" class="card-image">
+        <div class="card-content">
+          <h3>Forest Conservation</h3>
+          <p>Forests cover 31% of land area but we're losing 13 million hectares annually. They're home to 80% of terrestrial species.</p>
+          <a href="content_forests.html" class="card-link">Explore Forests →</a>
+        </div>
+      </div>
+      
+      
+      
+      <!-- Land Degradation Card -->
+      <div class="content-card">
+        <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Land Degradation" class="card-image">
+        <div class="card-content">
+          <h3>Land & Mountain Degradation</h3>
+          <p>24 billion tons of fertile soil are lost annually. Mountain ecosystems are particularly vulnerable to climate change.</p>
+          <a href="content_land.html" class="card-link">Explore Land Issues →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="un-footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="logo-en copy.png" alt="UN Logo" class="footer-logo" />
+        <span class="footer-brand">UN Goal 15</span>
+      </div>
+    </div>
+    <hr class="footer-line" />
+    <div class="footer-links">
+      <a href="content_biodiversity.html">Biodiversity</a>
+      <span>|</span>
+      <a href="content_forests.html">Forests</a>
+      <span>|</span>
+      <a href="content_desertification.html">Desertification</a>
+      <span>|</span>
+      <a href="content_land.html">Land Degradation</a>
+    </div>
+  </footer>
+
+  <script>
+    // Card animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.content-card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      cards.forEach(card => observer.observe(card));
+
+      // Parallax effect
+      let text = document.getElementById('text');
+      let leaf = document.getElementById('leaf');
+      let hill1 = document.getElementById('hill1');
+      let hill4 = document.getElementById('hill4');
+      let hill5 = document.getElementById('hill5');
+
+      window.addEventListener('scroll', () => {
+        let value = window.scrollY;
+        text.style.marginTop = value * 2.5 + 'px';
+        leaf.style.top = value * -1.5 + 'px';
+        leaf.style.left = value * 1.5 + 'px';
+        hill5.style.left = value * 1.5 + 'px';
+        hill4.style.left = value * -1.5 + 'px';
+        hill1.style.top = value * 1 + 'px';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Creator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="thumbnails">
+    <img src="bg1.jpg" onclick="changeBg('bg1')" />
+    <img src="bg2.jpg" onclick="changeBg('bg2')" />
+    <img src="bg3.jpg" onclick="changeBg('bg3')" />
+  </div>
+
+  <form id="profileForm">
+    <h2>Create Profile</h2>
+    <label>Username: <input type="text" value="student01" readonly></label><br>
+    <label>Age: <input type="number" id="age" required></label><br>
+    <p id="ageMsg" class="error"></p>
+
+    <label>Status: <input type="text" value="Student" readonly></label><br>
+
+    <label>Subscription:
+      <select id="subscription" onchange="checkAlert()">
+        <option>Monthly</option>
+        <option>Annual</option>
+        <option>Lifetime</option>
+      </select>
+    </label><br>
+
+    <label>
+      <input type="checkbox" id="discount"> Apply Discount
+    </label><br>
+
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+
+  <div id="profileResult"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
