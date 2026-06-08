@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team – UN Goal 15</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── Team page specific ── */
+
+    .team-section {
+      background: var(--light-bg);
+      padding: 70px 5vw 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: #7a9e99;
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Team grid ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Member card ── */
+    .member-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0, 60, 50, 0.12);
+      background: white;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      cursor: default;
+    }
+
+    .member-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .member-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 48px rgba(0, 60, 50, 0.2);
+    }
+
+    /* Photo area */
+    .member-photo {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .member-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.5s ease;
+    }
+
+    .member-card:hover .member-photo img {
+      transform: scale(1.06);
+    }
+
+    /* Overlay role badge on photo */
+    .member-role-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 30px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Card body */
+    .member-body {
+      padding: 24px 26px 28px;
+    }
+
+    .member-body h3 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    .member-student-id {
+      font-size: 0.75rem;
+      color: var(--primary);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .member-body p {
+      color: #6b8a84;
+      font-size: 0.86rem;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    /* Pages tag pills */
+    .pages-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #aac4bf;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .page-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .pill {
+      font-size: 0.73rem;
+      font-weight: 500;
+      padding: 4px 11px;
+      border-radius: 20px;
+      background: rgba(0, 166, 214, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(0, 166, 214, 0.25);
+    }
+
+    /* ── FEATURED card (builder highlight) ── */
+    .member-card.featured {
+      background: var(--secondary);
+    }
+
+    .member-card.featured .member-body h3 {
+      color: white;
+    }
+
+    .member-card.featured .member-student-id {
+      color: var(--primary);
+    }
+
+    .member-card.featured .member-body p {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .member-card.featured .pages-label {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .member-card.featured .pill {
+      background: rgba(0, 166, 214, 0.18);
+      color: #55d4f5;
+      border-color: rgba(0, 166, 214, 0.3);
+    }
+
+    .builder-crown {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--secondary);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 30px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: 1px solid var(--primary);
+    }
+
+    /* ── Project info strip ── */
+    .project-strip {
+      background: var(--secondary);
+      padding: 56px 5vw;
+    }
+
+    .project-strip-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .project-strip h2 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .project-strip p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.9rem;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    .project-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .meta-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .meta-box .meta-val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+    }
+
+    .meta-box .meta-key {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+    }
+
+    /* photo placeholder styling if image missing */
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #003329 0%, #005543 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .photo-placeholder .initials {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .project-strip-inner { grid-template-columns: 1fr; gap: 28px; }
+      .section-header h2 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sticky-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="United Nations Logo" class="un-logo">
+    </div>
+    <nav class="navigation">
+      <a href="index.html">Home</a>
+      <a href="Volunteer.html">Volunteer</a>
+      <a href="Table.html">Table</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="Sitemap.html">Sitemap</a>
+      <a href="team.html" class="active">Team</a>
+    </nav>
+    <div class="profile-section">
+      <a href="userprofile.html" class="profile-link">
+        <img src="profile-pic.jpeg" alt="Profile">
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <h1>Meet the <span class="hero-accent">Team</span></h1>
+    <p>Four students from the Informatics Institute of Technology, Sri Lanka — united by a passion for sustainability and technology, building this platform for UN Goal 15.</p>
+  </section>
+
+  <!-- Team cards -->
+  <section class="team-section">
+    <div class="section-header">
+      <h2>Our Team Members</h2>
+      <p>Each member contributed unique pages and skills to make this project come together.</p>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- Member 01 — Achintha (site builder, FEATURED) -->
+      <div class="member-card featured">
+        <div class="member-photo">
+          <!-- Place your photo at Assets/Achintha Jayaweera-Team member 01.jpg -->
+          <img src="Assets/Achintha Jayaweera-Team member 01.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Achintha Jayaweera">
+          <div class="photo-placeholder" style="display:none;">
+            <span class="initials">AJ</span>
+          </div>
+          <span class="member-role-badge">Site Builder</span>
+          <span class="builder-crown">★ Main Developer</span>
+        </div>
+        <div class="member-body">
+          <h3>Achintha Jayaweera</h3>
+          <span class="member-student-id">W2149645 — Student 02</span>
+          <p>Built the core website architecture, home parallax hero, content pages, volunteer section, and integrated all team members' work into a cohesive final product.</p>
+          <div class="pages-label">Pages Built</div>
+          <div class="page-pills">
+            <span class="pill">Home</span>
+            <span class="pill">Volunteer</span>
+            <span class="pill">Feedback</span>
+            <span class="pill">Sitemap</span>
+            <span class="pill">Team</span>
+            <span class="pill">Table</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Member 02 — Buddhima -->
+      <div class="member-card">
+        <div class="member-photo">
+          <img src="Assets/Buddhima.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Buddhima">
+          <div class="photo-placeholder" style="display:none;">
+            <span class="initials">BS</span>
+          </div>
+          <span class="member-role-badge">Content Developer</span>
+        </div>
+        <div class="member-body">
+          <h3>Buddhima Samaraweera</h3>
+          <span class="member-student-id">Student 01</span>
+          <p>Researched and developed the content pages covering SDG 15's key themes, including deforestation, land rehabilitation, and wildlife protection.</p>
+          <div class="pages-label">Pages Built</div>
+          <div class="page-pills">
+            <span class="pill">Biodiversity</span>
+            <span class="pill">Content ST1</span>
+            <span class="pill">Page Editor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Member 03 — Thisanda -->
+      <div class="member-card">
+        <div class="member-photo">
+          <img src="Assets/Thisanda Perera - Team member 03.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Thisanda Perera">
+          <div class="photo-placeholder" style="display:none;">
+            <span class="initials">TP</span>
+          </div>
+          <span class="member-role-badge">UI / UX Designer</span>
+        </div>
+        <div class="member-body">
+          <h3>Thisanda Perera</h3>
+          <span class="member-student-id">Student 03</span>
+          <p>Designed the visual layout, color system, and user experience flow. Responsible for ensuring consistent branding across all pages.</p>
+          <div class="pages-label">Pages Built</div>
+          <div class="page-pills">
+            <span class="pill">Forests</span>
+            <span class="pill">Content ST3</span>
+            <span class="pill">Page Editor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Member 04 — Senuth -->
+      <div class="member-card">
+        <div class="member-photo">
+          <img src="Assets/Senuth.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Senuth">
+          <div class="photo-placeholder" style="display:none;">
+            <span class="initials">SD</span>
+          </div>
+          <span class="member-role-badge">Frontend Developer</span>
+        </div>
+        <div class="member-body">
+          <h3>Senuth</h3>
+          <span class="member-student-id">Student 04</span>
+          <p>Developed interactive features, JavaScript animations, and the responsive layout across multiple content pages for optimal viewing on all devices.</p>
+          <div class="pages-label">Pages Built</div>
+          <div class="page-pills">
+            <span class="pill">Desertification</span>
+            <span class="pill">Content ST4</span>
+            <span class="pill">Page Editor</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Project info strip -->
+  <section class="project-strip">
+    <div class="project-strip-inner">
+      <div>
+        <h2>About This Project</h2>
+        <p>This website was created as part of the Web Design and Development module at the Informatics Institute of Technology (IIT), Sri Lanka — in partnership with the University of Westminster.</p>
+        <p>The project focuses on UN Sustainable Development Goal 15 — Life on Land — with the aim of educating the public about terrestrial ecosystem conservation and encouraging action.</p>
+        <p style="color: rgba(255,255,255,0.4); font-size: 0.82rem; margin-top: 20px;">📍 IIT Sri Lanka &nbsp;|&nbsp; 1st Year, 1st Semester &nbsp;|&nbsp; 2024/2025</p>
+      </div>
+      <div class="project-meta">
+        <div class="meta-box">
+          <span class="meta-val">6</span>
+          <div class="meta-key">HTML Pages</div>
+        </div>
+        <div class="meta-box">
+          <span class="meta-val">4</span>
+          <div class="meta-key">Team Members</div>
+        </div>
+        <div class="meta-box">
+          <span class="meta-val">15</span>
+          <div class="meta-key">UN SDG Focus</div>
+        </div>
+        <div class="meta-box">
+          <span class="meta-val">100%</span>
+          <div class="meta-key">Passion Driven</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="un-footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="logo-en copy.png" alt="UN Logo" class="footer-logo" />
+        <span class="footer-brand">UN Goal 15</span>
+      </div>
+    </div>
+    <hr class="footer-line" />
+    <div class="footer-links">
+      <a href="content_biodiversity.html">Biodiversity</a><span>|</span>
+      <a href="content_forests.html">Forests</a><span>|</span>
+      <a href="content_desertification.html">Desertification</a><span>|</span>
+      <a href="content_land.html">Land Degradation</a>
+    </div>
+  </footer>
+
+  <script>
+    // Staggered entrance animation
+    const cards = document.querySelectorAll('.member-card');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 130);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(c => obs.observe(c));
+  </script>
+</body>
+</html>

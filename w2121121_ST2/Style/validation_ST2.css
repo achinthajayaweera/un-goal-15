@@ -1,0 +1,306 @@
+/* Preserve all existing styles */
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ededed;
+}
+
+.container {
+    display: flex;
+    flex-direction: row-reverse;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+main {
+    flex: 3;
+}
+
+aside {
+    flex: 1;
+    background-color: #f4f4f4;
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-right: 20px;
+}
+
+/* Adjusted paragraph readability */
+p {
+    margin-bottom: 18px; /* Added spacing between paragraphs */
+    line-height: 1.7; /* Improved readability */
+}
+
+/* Improved section styling for better spacing */
+section {
+    margin-bottom: 30px; /* Added space between sections */
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+}
+
+/* Ensure images align neatly */
+img {
+    display: block;
+    max-width: 90%;
+    margin: 15px auto; /* Center images */
+}
+
+/* Header and footer remain unchanged */
+header, footer {
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+}
+
+/* Sidebar adjustments */
+.ref li {
+    list-style: none;
+    padding-bottom: 9px;
+}
+
+aside a {
+    text-decoration: none;
+}
+
+aside li {
+    padding-bottom: 4px;
+}
+
+/* Student section */
+.stud {
+    text-align: center;
+    line-height: 0;
+    background-color: #cbccc2ef;
+    color: white;
+    margin-top: 8px;
+}
+
+/* Back-to-top button improvements */
+.top {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+}
+
+.top a {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.top a:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero section */
+.header1 {
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(48, 193, 176, 0.75), rgba(5, 71, 46, 0.75));
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+.text-box {
+    width: 90%;
+    color: #03240e;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.text-box h1 {
+    font-size: 62px;
+    margin-top: 50px;
+}
+
+.text-box p {
+    margin: 10px 0 40px;
+    font-size: 14px;
+    color: #bdfffb;
+}
+
+/* Button styling */
+.hero-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 12px 34px;
+    font-size: 13px;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+}
+
+.hero-btn:hover {
+    border: 1px solid #0a652d;
+    background: #000000;
+    transition: 1s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+    .text-box h1 {
+        font-size: 20px;
+    }
+    .nav-links ul li {
+        display: block;
+    }
+    .nav-links {
+        position: absolute;
+        background: #f44336;
+        height: 100vh;
+        width: 200px;
+        top: 0;
+        right: 0;
+        text-align: left;
+        z-index: 2;
+    }
+}
+
+/* Footer styles */
+.footer {
+    background: linear-gradient(to right, #7cde75, #39a890);
+}
+
+.footer-cont-main {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.footer-logo {
+    grid-column: span 1;
+}
+
+.footer-img {
+    max-width: 160px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.social-icon i {
+    color: #000;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #4ad66d;
+}
+
+.social-icon:hover i {
+    color: white;
+}
+
+.footer-cont {
+    grid-column: span 1;
+}
+
+.footer h4 {
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer li {
+    margin-bottom: 10px;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #4ad66d;
+}
+
+.footer-2 {
+    background-color: #f1f0f2;
+    padding: 10px 0;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.copy-cont {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Responsive footer */
+@media (max-width: 1024px) {
+    .footer-cont-main {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .footer-logo {
+        grid-column: span 3;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-cont-main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-logo {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-cont-main {
+        grid-template-columns: 1fr;
+    }
+    .footer-logo {
+        grid-column: span 1;
+    }
+}

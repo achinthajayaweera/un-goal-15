@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sitemap – UN Goal 15</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .sitemap-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 70px 5vw 90px;
+    }
+
+    /* ── Visual tree diagram ── */
+    .tree-diagram {
+      background: white;
+      border-radius: 16px;
+      padding: 50px 40px;
+      box-shadow: 0 8px 30px rgba(0, 60, 50, 0.1);
+      margin-bottom: 56px;
+      overflow-x: auto;
+    }
+
+    .tree-title {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #aac4bf;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 36px;
+    }
+
+    /* root node */
+    .tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .node-root {
+      background: var(--secondary);
+      color: white;
+      padding: 14px 36px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0, 51, 41, 0.25);
+    }
+
+    .node-root::after {
+      content: '';
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 22px;
+      background: #c0d8d4;
+    }
+
+    /* horizontal connector */
+    .tree-level {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      margin-top: 22px;
+    }
+
+    .tree-level::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 80px);
+      height: 2px;
+      background: #c0d8d4;
+    }
+
+    /* main nav nodes */
+    .node-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .node-main::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 22px;
+      background: #c0d8d4;
+    }
+
+    .node-box {
+      margin-top: 22px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      text-align: center;
+      min-width: 110px;
+      transition: background 0.25s, transform 0.2s;
+      display: block;
+    }
+
+    .node-box:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+    }
+
+    /* child connector + nodes */
+    .node-children {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-top: 0;
+    }
+
+    .node-children::before {
+      content: '';
+      width: 2px;
+      height: 18px;
+      background: #c0d8d4;
+      display: block;
+    }
+
+    .node-child {
+      background: #e8f4f2;
+      color: var(--secondary);
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-decoration: none;
+      text-align: center;
+      min-width: 140px;
+      transition: background 0.2s, color 0.2s;
+      display: block;
+    }
+
+    .node-child + .node-child {
+      margin-top: 6px;
+    }
+
+    .node-child:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* ── Text list version ── */
+    .sitemap-list-section {
+      background: white;
+      border-radius: 16px;
+      padding: 44px 40px;
+      box-shadow: 0 8px 30px rgba(0, 60, 50, 0.08);
+    }
+
+    .sitemap-list-section h2 {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sitemap-list-section h2::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: #e0eeec;
+    }
+
+    .sitemap-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 36px;
+    }
+
+    .sitemap-group h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(0, 166, 214, 0.2);
+    }
+
+    .sitemap-group ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sitemap-group ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #4a7a72;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 7px;
+      transition: background 0.2s, color 0.2s, padding-left 0.2s;
+    }
+
+    .sitemap-group ul li a:hover {
+      background: rgba(0, 166, 214, 0.08);
+      color: var(--primary);
+      padding-left: 18px;
+    }
+
+    .sitemap-group ul li a .link-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* breadcrumb hint */
+    .breadcrumb-note {
+      background: var(--light-bg);
+      border-left: 4px solid var(--primary);
+      padding: 14px 20px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.82rem;
+      color: #6b8a84;
+      margin-top: 36px;
+    }
+
+    @media (max-width: 700px) {
+      .tree-level { gap: 12px; }
+      .node-box { min-width: 80px; font-size: 0.75rem; padding: 8px 12px; }
+      .node-child { min-width: 100px; font-size: 0.72rem; }
+      .sitemap-list-section { padding: 28px 20px; }
+      .tree-diagram { padding: 30px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="sticky-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="United Nations Logo" class="un-logo">
+    </div>
+    <nav class="navigation">
+      <a href="index.html">Home</a>
+      <a href="Volunteer.html">Volunteer</a>
+      <a href="Table.html">Table</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="Sitemap.html" class="active">Sitemap</a>
+      <a href="team.html">Team</a>
+    </nav>
+    <div class="profile-section">
+      <a href="userprofile.html" class="profile-link">
+        <img src="profile-pic.jpeg" alt="Profile">
+      </a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <h1>Site <span class="hero-accent">Map</span></h1>
+    <p>A complete overview of every page on this website. Use this to find exactly what you're looking for about UN Sustainable Development Goal 15.</p>
+  </section>
+
+  <div class="sitemap-wrapper">
+
+    <!-- Visual tree diagram -->
+    <div class="tree-diagram">
+      <div class="tree-title">Website Structure</div>
+      <div class="tree">
+        <div class="node-root">🌿 UN Goal 15 — Life on Land</div>
+        <div class="tree-level">
+
+          <!-- Home branch -->
+          <div class="node-main">
+            <a href="index.html" class="node-box">🏠 Home</a>
+          </div>
+
+          <!-- Content branch -->
+          <div class="node-main">
+            <span class="node-box" style="background:#005543; cursor:default;">📄 Content</span>
+            <div class="node-children">
+              <a href="content_biodiversity.html" class="node-child">🦋 Biodiversity</a>
+              <a href="content_forests.html" class="node-child">🌲 Forests</a>
+              <a href="content_desertification.html" class="node-child">🏜️ Desertification</a>
+              <a href="content_land.html" class="node-child">⛰️ Land Degradation</a>
+            </div>
+          </div>
+
+          <!-- Volunteer branch -->
+          <div class="node-main">
+            <a href="Volunteer.html" class="node-box">🤝 Volunteer</a>
+          </div>
+
+          <!-- Table branch -->
+          <div class="node-main">
+            <a href="Table.html" class="node-box">📊 Table</a>
+          </div>
+
+          <!-- Feedback branch -->
+          <div class="node-main">
+            <a href="feedback.html" class="node-box">💬 Feedback</a>
+          </div>
+
+          <!-- Team branch -->
+          <div class="node-main">
+            <a href="team.html" class="node-box">👥 Team</a>
+            <div class="node-children">
+              <a href="team.html#achintha" class="node-child">Achintha — ST02</a>
+              <a href="team.html#buddhima" class="node-child">Buddhima — ST01</a>
+              <a href="team.html#thisanda" class="node-child">Thisanda — ST03</a>
+              <a href="team.html#senuth" class="node-child">Senuth — ST04</a>
+            </div>
+          </div>
+
+          <!-- User branch -->
+          <div class="node-main">
+            <a href="userprofile.html" class="node-box">👤 Profile</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Text list version -->
+    <div class="sitemap-list-section">
+      <h2>All Pages</h2>
+      <div class="sitemap-columns">
+
+        <div class="sitemap-group">
+          <h3>Main Navigation</h3>
+          <ul>
+            <li><a href="index.html"><span class="link-icon">🏠</span> Home</a></li>
+            <li><a href="Volunteer.html"><span class="link-icon">🤝</span> Volunteer</a></li>
+            <li><a href="Table.html"><span class="link-icon">📊</span> Data Table</a></li>
+            <li><a href="feedback.html"><span class="link-icon">💬</span> Feedback</a></li>
+            <li><a href="Sitemap.html"><span class="link-icon">🗺️</span> Sitemap</a></li>
+            <li><a href="team.html"><span class="link-icon">👥</span> Team</a></li>
+          </ul>
+        </div>
+
+        <div class="sitemap-group">
+          <h3>Content Pages</h3>
+          <ul>
+            <li><a href="content_biodiversity.html"><span class="link-icon">🦋</span> Biodiversity &amp; Ecosystems</a></li>
+            <li><a href="content_forests.html"><span class="link-icon">🌲</span> Forest Conservation</a></li>
+            <li><a href="content_desertification.html"><span class="link-icon">🏜️</span> Combat Desertification</a></li>
+            <li><a href="content_land.html"><span class="link-icon">⛰️</span> Land Degradation</a></li>
+          </ul>
+        </div>
+
+        <div class="sitemap-group">
+          <h3>User Account</h3>
+          <ul>
+            <li><a href="userprofile.html"><span class="link-icon">👤</span> User Profile</a></li>
+          </ul>
+        </div>
+
+        <div class="sitemap-group">
+          <h3>Team Members' Pages</h3>
+          <ul>
+            <li><a href="team.html"><span class="link-icon">🧑‍💻</span> Achintha — W2149645</a></li>
+            <li><a href="team.html"><span class="link-icon">🧑‍💻</span> Buddhima — ST01</a></li>
+            <li><a href="team.html"><span class="link-icon">🧑‍💻</span> Thisanda — ST03</a></li>
+            <li><a href="team.html"><span class="link-icon">🧑‍💻</span> Senuth — ST04</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="breadcrumb-note">
+        💡 <strong>Tip:</strong> All pages share the same header navigation for easy movement. Content pages are also accessible from the cards on the Home page.
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="un-footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="logo-en copy.png" alt="UN Logo" class="footer-logo" />
+        <span class="footer-brand">UN Goal 15</span>
+      </div>
+    </div>
+    <hr class="footer-line" />
+    <div class="footer-links">
+      <a href="content_biodiversity.html">Biodiversity</a><span>|</span>
+      <a href="content_forests.html">Forests</a><span>|</span>
+      <a href="content_desertification.html">Desertification</a><span>|</span>
+      <a href="content_land.html">Land Degradation</a>
+    </div>
+  </footer>
+
+</body>
+</html>

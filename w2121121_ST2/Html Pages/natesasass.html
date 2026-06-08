@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Screen Background Image</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: url('background.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            flex-direction: column;
+            text-align: center;
+        }
+        h1.Group {
+            font-size: 60px; /* Larger font size */
+            margin-top: 20px; /* Space from the top */
+        }
+        .Z, .Names {
+            margin-top: 20px;
+        }
+        .loader {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Website name -->
+    <h1 class="Group"> <b> Health and Well-being </b> </h1><!-- Displaying the name of the website -->
+    
+    <div class="Z">
+        <!-- Mission statement -->
+        <h2>Mission</h2>
+        <p><span>"Empowering you to live a healthier, happier life through personalized wellness, knowledge, and support. Your journey to well-being starts here."</span></p>
+    </div>
+    
+    <div class="Names">
+        <h3>Team Members;</h3>
+        <ul> <!-- Displaying the students' names -->
+            <li class="B"> <i><b>Sukhitha Dharmasinghe - w2121121</b></i></li>
+            <br>
+            <li class="B"> <i><b>Kiyoma Batuwatta- w2120812</b></i></li>
+            <br>
+            <li class="B"> <i><b>Vikum Rathnayake- w2120810 </b> </i></li>
+        </ul>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <!-- Redirect to the main page after 4 seconds -->
+    <script>
+        setTimeout(function () {
+            window.location.href = "../Pages/Home.html";
+        }, 4000); 
+    </script>
+</body>
+</html>

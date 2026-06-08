@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer – UN Goal 15</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── Volunteer-specific styles ── */
+    .volunteer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 5vw;
+    }
+
+    .vol-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .vol-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .vol-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgba(0, 60, 50, 0.18);
+    }
+
+    .vol-card-banner {
+      height: 10px;
+      background: var(--primary);
+    }
+
+    .vol-card-body {
+      padding: 28px;
+    }
+
+    .vol-icon {
+      font-size: 2.4rem;
+      margin-bottom: 14px;
+    }
+
+    .vol-card-body h3 {
+      color: var(--secondary);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .vol-card-body p {
+      color: #5a7a74;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .vol-tag {
+      display: inline-block;
+      background: rgba(0, 166, 214, 0.1);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 30px;
+      margin-bottom: 18px;
+    }
+
+    .btn-apply {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-apply:hover {
+      background: var(--secondary);
+      transform: scale(1.04);
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      background: var(--secondary);
+      color: white;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: linear-gradient(135deg, #003329, #005543);
+    }
+
+    .stat-item {
+      padding: 40px 20px;
+      text-align: center;
+      background: transparent;
+    }
+
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+
+    /* Sign-up form section */
+    .signup-section {
+      background: var(--light-bg);
+      padding: 70px 5vw;
+    }
+
+    .signup-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .signup-inner h2 {
+      font-size: 2rem;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .signup-inner p {
+      color: #6b8a84;
+      margin-bottom: 36px;
+      font-size: 0.95rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-row.single { grid-template-columns: 1fr; }
+
+    .vol-form input,
+    .vol-form select,
+    .vol-form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #d0ddd9;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: 'Poppins', sans-serif;
+      color: var(--secondary);
+      background: white;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    .vol-form input:focus,
+    .vol-form select:focus,
+    .vol-form textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 166, 214, 0.12);
+    }
+
+    .vol-form textarea { resize: vertical; min-height: 110px; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .success-msg {
+      display: none;
+      background: #e6f9f0;
+      border: 1.5px solid #00c86a;
+      color: #007840;
+      padding: 14px 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sticky-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="United Nations Logo" class="un-logo">
+    </div>
+    <nav class="navigation">
+      <a href="index.html">Home</a>
+      <a href="Volunteer.html" class="active">Volunteer</a>
+      <a href="Table.html">Table</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="Sitemap.html">Sitemap</a>
+      <a href="team.html">Team</a>
+    </nav>
+    <div class="profile-section">
+      <a href="userprofile.html" class="profile-link">
+        <img src="profile-pic.jpeg" alt="Profile">
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <h1>Volunteer with <span class="hero-accent">UN Goal 15</span></h1>
+    <p>Join thousands of passionate individuals protecting terrestrial ecosystems. Your time and skills can help restore forests, fight desertification, and preserve biodiversity worldwide.</p>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">12,400+</div>
+      <div class="stat-label">Active Volunteers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">86</div>
+      <div class="stat-label">Countries Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3.2M</div>
+      <div class="stat-label">Trees Planted</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">540+</div>
+      <div class="stat-label">Active Projects</div>
+    </div>
+  </div>
+
+  <!-- Opportunities -->
+  <section style="background: var(--light-bg);">
+    <div style="text-align:center; padding: 60px 5vw 10px;">
+      <h2 style="color:var(--secondary); font-size: 2rem; margin-bottom: 10px;">Volunteer Opportunities</h2>
+      <p style="color: #6b8a84; max-width: 560px; margin: 0 auto; font-size: 0.95rem;">Choose a cause that speaks to you. Every role matters in protecting life on land.</p>
+    </div>
+    <div class="volunteer-grid">
+
+      <div class="vol-card">
+        <div class="vol-card-banner"></div>
+        <div class="vol-card-body">
+          <div class="vol-icon">🌳</div>
+          <span class="vol-tag">Field Work</span>
+          <h3>Reforestation Teams</h3>
+          <p>Work hands-on in tree-planting drives across degraded landscapes. Weekend and long-term placements available in Sri Lanka and beyond.</p>
+          <a href="#signup" class="btn-apply">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="vol-card">
+        <div class="vol-card-banner"></div>
+        <div class="vol-card-body">
+          <div class="vol-icon">📊</div>
+          <span class="vol-tag">Remote / Online</span>
+          <h3>Data & Research</h3>
+          <p>Assist scientists with biodiversity data collection, satellite monitoring, and species tracking from anywhere in the world.</p>
+          <a href="#signup" class="btn-apply">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="vol-card">
+        <div class="vol-card-banner"></div>
+        <div class="vol-card-body">
+          <div class="vol-icon">🎓</div>
+          <span class="vol-tag">Education</span>
+          <h3>Community Educators</h3>
+          <p>Run workshops and school programs to raise awareness about sustainable land use, habitat protection, and eco-friendly practices.</p>
+          <a href="#signup" class="btn-apply">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="vol-card">
+        <div class="vol-card-banner"></div>
+        <div class="vol-card-body">
+          <div class="vol-icon">📸</div>
+          <span class="vol-tag">Media & Comms</span>
+          <h3>Content Creators</h3>
+          <p>Photograph, film, or write about conservation efforts. Help us spread the message through social media, blogs, and campaign materials.</p>
+          <a href="#signup" class="btn-apply">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="vol-card">
+        <div class="vol-card-banner"></div>
+        <div class="vol-card-body">
+          <div class="vol-icon">🐾</div>
+          <span class="vol-tag">Wildlife</span>
+          <h3>Wildlife Monitoring</h3>
+          <p>Join ranger-led patrols and wildlife corridor monitoring programs to protect endangered species from poaching and habitat loss.</p>
+          <a href="#signup" class="btn-apply">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="vol-card">
+        <div class="vol-card-banner"></div>
+        <div class="vol-card-body">
+          <div class="vol-icon">💻</div>
+          <span class="vol-tag">Tech</span>
+          <h3>Tech for Conservation</h3>
+          <p>Use your coding, GIS, or app development skills to build tools that help conservationists and communities manage land better.</p>
+          <a href="#signup" class="btn-apply">Apply Now</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sign-up form -->
+  <section class="signup-section" id="signup">
+    <div class="signup-inner">
+      <h2>Sign Up to Volunteer</h2>
+      <p>Fill in the form below and our team will reach out within 3 business days.</p>
+      <form class="vol-form" id="volForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <input type="text" placeholder="First Name" required />
+          <input type="text" placeholder="Last Name" required />
+        </div>
+        <div class="form-row">
+          <input type="email" placeholder="Email Address" required />
+          <input type="tel" placeholder="Phone Number" />
+        </div>
+        <div class="form-row single">
+          <select required>
+            <option value="" disabled selected>Select a Volunteer Role</option>
+            <option>Reforestation Teams</option>
+            <option>Data & Research</option>
+            <option>Community Educators</option>
+            <option>Content Creators</option>
+            <option>Wildlife Monitoring</option>
+            <option>Tech for Conservation</option>
+          </select>
+        </div>
+        <div class="form-row single">
+          <textarea placeholder="Tell us a bit about yourself and why you want to volunteer…"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit Application 🌿</button>
+        <div class="success-msg" id="successMsg">
+          ✅ Thank you! Your application has been received. We'll be in touch soon.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="un-footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="logo-en copy.png" alt="UN Logo" class="footer-logo" />
+        <span class="footer-brand">UN Goal 15</span>
+      </div>
+    </div>
+    <hr class="footer-line" />
+    <div class="footer-links">
+      <a href="content_biodiversity.html">Biodiversity</a><span>|</span>
+      <a href="content_forests.html">Forests</a><span>|</span>
+      <a href="content_desertification.html">Desertification</a><span>|</span>
+      <a href="content_land.html">Land Degradation</a>
+    </div>
+  </footer>
+
+  <script>
+    // Card entrance animation
+    const cards = document.querySelectorAll('.vol-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(c => observer.observe(c));
+
+    // Form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('successMsg').style.display = 'block';
+      e.target.reset();
+      document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+</body>
+</html>

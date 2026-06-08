@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback – UN Goal 15</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .feedback-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 70px 5vw;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* Left info panel */
+    .fb-info h2 {
+      font-size: 1.8rem;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .fb-info p {
+      color: #6b8a84;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .fb-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .fb-item-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .fb-item-text strong {
+      display: block;
+      color: var(--secondary);
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .fb-item-text span {
+      color: #8aada8;
+      font-size: 0.85rem;
+    }
+
+    /* Star rating */
+    .rating-group {
+      margin-bottom: 22px;
+    }
+
+    .rating-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 8px;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .stars input { display: none; }
+
+    .stars label {
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: #f5a623;
+      transform: scale(1.15);
+    }
+
+    /* Form card */
+    .fb-form-card {
+      background: white;
+      border-radius: 14px;
+      padding: 40px;
+      box-shadow: 0 8px 30px rgba(0, 60, 50, 0.1);
+    }
+
+    .fb-form-card h3 {
+      font-size: 1.4rem;
+      color: var(--secondary);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 16px;
+      border: 1.5px solid #d0ddd9;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: var(--secondary);
+      background: #fafcfc;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 166, 214, 0.1);
+      background: white;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: #5a7a74;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+    }
+
+    .btn-send {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 6px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-send:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .success-msg {
+      display: none;
+      background: #e6f9f0;
+      border: 1.5px solid #00c86a;
+      color: #007840;
+      padding: 14px 20px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+    /* Testimonials strip */
+    .testimonials {
+      background: var(--secondary);
+      padding: 60px 5vw;
+    }
+
+    .testimonials h2 {
+      text-align: center;
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 36px;
+    }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .testi-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 28px;
+      transition: background 0.3s;
+    }
+
+    .testi-card:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .testi-stars { color: #f5a623; font-size: 1.1rem; margin-bottom: 12px; }
+
+    .testi-text {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .testi-author strong {
+      display: block;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+
+    .testi-author span {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 768px) {
+      .feedback-layout { grid-template-columns: 1fr; gap: 36px; }
+      .form-row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="sticky-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="United Nations Logo" class="un-logo">
+    </div>
+    <nav class="navigation">
+      <a href="index.html">Home</a>
+      <a href="Volunteer.html">Volunteer</a>
+      <a href="Table.html">Table</a>
+      <a href="feedback.html" class="active">Feedback</a>
+      <a href="Sitemap.html">Sitemap</a>
+      <a href="team.html">Team</a>
+    </nav>
+    <div class="profile-section">
+      <a href="userprofile.html" class="profile-link">
+        <img src="profile-pic.jpeg" alt="Profile">
+      </a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <h1>Share Your <span class="hero-accent">Feedback</span></h1>
+    <p>Your thoughts help us improve this platform and strengthen global awareness of UN Goal 15. We read every response carefully.</p>
+  </section>
+
+  <!-- Main feedback form + info -->
+  <section style="background: var(--light-bg);">
+    <div class="feedback-layout">
+
+      <!-- Left info -->
+      <div class="fb-info">
+        <h2>Why Your Feedback Matters</h2>
+        <p>This website is part of a student project dedicated to UN Sustainable Development Goal 15 — Life on Land. Your insights help us present information more clearly and impactfully.</p>
+
+        <div class="fb-item">
+          <div class="fb-item-icon">🎯</div>
+          <div class="fb-item-text">
+            <strong>Improve Content Quality</strong>
+            <span>Tell us what information is unclear, missing, or particularly helpful.</span>
+          </div>
+        </div>
+
+        <div class="fb-item">
+          <div class="fb-item-icon">🌍</div>
+          <div class="fb-item-text">
+            <strong>Shape Our Mission</strong>
+            <span>Your perspective on conservation topics guides our research focus.</span>
+          </div>
+        </div>
+
+        <div class="fb-item">
+          <div class="fb-item-icon">⚡</div>
+          <div class="fb-item-text">
+            <strong>Quick Response</strong>
+            <span>We aim to acknowledge all feedback within 48 hours.</span>
+          </div>
+        </div>
+
+        <div class="fb-item">
+          <div class="fb-item-icon">🔒</div>
+          <div class="fb-item-text">
+            <strong>Your Privacy</strong>
+            <span>Personal information is only used to respond to your message.</span>
+          </div>
+        </div>
+
+        <!-- Overall rating -->
+        <div class="rating-group" style="margin-top: 36px;">
+          <span class="rating-label">How would you rate this website overall?</span>
+          <div class="stars">
+            <input type="radio" id="s5" name="overall" value="5"><label for="s5">★</label>
+            <input type="radio" id="s4" name="overall" value="4"><label for="s4">★</label>
+            <input type="radio" id="s3" name="overall" value="3"><label for="s3">★</label>
+            <input type="radio" id="s2" name="overall" value="2"><label for="s2">★</label>
+            <input type="radio" id="s1" name="overall" value="1"><label for="s1">★</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right form -->
+      <div class="fb-form-card">
+        <h3>Send Us a Message</h3>
+        <form id="fbForm" onsubmit="handleFbSubmit(event)">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>First Name *</label>
+              <input type="text" placeholder="Achintha" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Jayaweera" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Feedback Type</label>
+            <select>
+              <option value="" disabled selected>Select a category</option>
+              <option>Website Design & Usability</option>
+              <option>Content Accuracy</option>
+              <option>Volunteer Program</option>
+              <option>Conservation Projects</option>
+              <option>General Comment</option>
+              <option>Bug / Technical Issue</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Which pages did you visit?</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" /> Home</label>
+              <label><input type="checkbox" /> Volunteer</label>
+              <label><input type="checkbox" /> Table</label>
+              <label><input type="checkbox" /> Biodiversity</label>
+              <label><input type="checkbox" /> Forests</label>
+              <label><input type="checkbox" /> Desertification</label>
+              <label><input type="checkbox" /> Land Degradation</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Your Message *</label>
+            <textarea placeholder="Share your thoughts, suggestions, or questions…" required></textarea>
+          </div>
+          <button type="submit" class="btn-send">Send Feedback 🌿</button>
+          <div class="success-msg" id="fbSuccess">
+            ✅ Thank you for your feedback! We'll review it shortly.
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Visitors Are Saying</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The parallax hero on the homepage is stunning. Really felt the importance of Goal 15 the moment I landed on the page."</p>
+        <div class="testi-author">
+          <strong>Dinusha R.</strong>
+          <span>Student, University of Colombo</span>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The biodiversity content was incredibly well-researched. I used several of the statistics for my own environmental science assignment."</p>
+        <div class="testi-author">
+          <strong>Tharushi P.</strong>
+          <span>Environmental Science, IIT</span>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★☆</div>
+        <p class="testi-text">"Great project overall. The volunteer section is especially motivating. Would love to see a map showing project locations in the future!"</p>
+        <div class="testi-author">
+          <strong>Kavindu M.</strong>
+          <span>Web Design Student</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="un-footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="logo-en copy.png" alt="UN Logo" class="footer-logo" />
+        <span class="footer-brand">UN Goal 15</span>
+      </div>
+    </div>
+    <hr class="footer-line" />
+    <div class="footer-links">
+      <a href="content_biodiversity.html">Biodiversity</a><span>|</span>
+      <a href="content_forests.html">Forests</a><span>|</span>
+      <a href="content_desertification.html">Desertification</a><span>|</span>
+      <a href="content_land.html">Land Degradation</a>
+    </div>
+  </footer>
+
+  <script>
+    function handleFbSubmit(e) {
+      e.preventDefault();
+      const msg = document.getElementById('fbSuccess');
+      msg.style.display = 'block';
+      e.target.reset();
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+</body>
+</html>

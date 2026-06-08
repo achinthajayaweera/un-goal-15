@@ -1,0 +1,270 @@
+*{
+    font-family: 'Poppins', sans-serif;
+     margin: 0;
+    padding: 0;
+}
+body {
+  margin: 0;
+  padding:0;
+  background-color: #ededed;
+}
+
+
+.container_1 {
+    position: absolute;
+    height: auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+   
+}
+
+
+/*---Main Footer---*/
+
+
+a.active {
+   
+    color: #4ad66d;
+    font-weight: 600;
+  }
+ a:hover{
+    color:#2dc653 ;
+   
+ }
+ .footer {
+    background: #53cf93;
+    background: linear-gradient(to right, #7cde75, #39a890);
+  }
+  
+  .footer-cont-main {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .footer-logo {
+    grid-column: span 1;
+  }
+  
+  .footer-img {
+    max-width: 160px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .social-icon i {
+    color: #000;
+    font-size: 16px;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    background-color: #4ad66d;
+  }
+  
+  .social-icon:hover i {
+    color: white;
+  }
+  
+  .footer-cont {
+    grid-column: span 1;
+  }
+  
+  .footer h4 {
+    color: #000000;
+    margin-bottom: 15px;
+  }
+  
+  .footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer li {
+    margin-bottom: 10px;
+  }
+  
+  .footer a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .footer a:hover {
+    color: #4ad66d;
+  }
+  
+  .footer-2 {
+    background-color: #f1f0f2;
+    padding: 10px 0;
+  }
+  
+  .copyright {
+    text-align: center;
+  }
+  
+  .copy-cont {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  @media (max-width: 1024px) {
+    .footer-cont-main {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .footer-logo {
+      grid-column: span 3;
+      text-align: center;
+    }
+  
+    .social-icons {
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .footer-cont-main {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-logo {
+      grid-column: span 2;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .footer-cont-main {
+      grid-template-columns: 1fr;
+    }
+    
+    .footer-logo {
+      grid-column: span 1;
+    }
+  }
+
+/* Mental Well-Being Section Styling */
+.mental-wellbeing {
+    width: 80%;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Image Styling */
+.wellbeing-image {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 10%;
+}
+
+/* Title Styling */
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c6e49;
+    margin-bottom: 20px;
+}
+
+.intro-text {
+    font-size: 16px;
+    align-items: justify;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.sub-heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: #166534;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* List Styling */
+.wellbeing-list {
+    list-style-type: disc;
+    margin: 20px 0;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.wellbeing-list li {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.wellbeing-list li strong {
+    color: #1a4d2e;
+}
+
+/* Paragraph Styling */
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mental-wellbeing {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .wellbeing-image {
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .sub-heading {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    .wellbeing-list li {
+        font-size: 14px;
+    }
+}
