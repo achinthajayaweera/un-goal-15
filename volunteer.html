@@ -5,410 +5,601 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Volunteer – UN Goal 15</title>
   <link rel="stylesheet" href="shared.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
-    /* ── Volunteer-specific styles ── */
-    .volunteer-grid {
+    /* ── Hero ── */
+    .vol-hero {
+      margin-top: 70px;
+      background: var(--secondary);
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      padding: 70px 5vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-deco-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,166,214,0.2);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 620px; }
+    .hero-content h1 { font-size: 2.8rem; font-weight: 700; color: white; margin-bottom: 12px; line-height: 1.15; }
+    .hero-content p { color: rgba(255,255,255,0.65); font-size: 0.97rem; line-height: 1.75; }
+    .hero-accent { color: #00a6d6; }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      background: linear-gradient(135deg, #004d3d, #003329);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-cell {
+      padding: 42px 20px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 3px;
+      background: #00a6d6;
+      transition: width 0.4s ease;
+    }
+    .stat-cell:hover::after { width: 60%; }
+
+    .stat-icon {
+      margin: 0 auto 10px;
+      width: 42px; height: 42px;
+      opacity: 0.7;
+    }
+
+    .stat-num { font-size: 2.2rem; font-weight: 700; color: #00a6d6; display: block; }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+    /* ── Opportunities section ── */
+    .opps-section { background: #f0f6f5; padding: 80px 5vw; }
+
+    .opps-header { text-align: center; margin-bottom: 52px; }
+    .opps-header h2 { font-size: 2rem; color: var(--secondary); margin-bottom: 10px; }
+    .opps-header p { color: #7a9e99; font-size: 0.92rem; max-width: 480px; margin: 0 auto; }
+
+    .opps-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      max-width: 1200px;
+      gap: 28px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 60px 5vw;
     }
 
-    .vol-card {
+    .opp-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 14px;
+      padding: 32px 28px;
+      box-shadow: 0 6px 24px rgba(0,51,41,0.09);
+      position: relative;
       overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
-      opacity: 0;
-      transform: translateY(30px);
+      transition: box-shadow 0.35s;
+      will-change: transform;
     }
 
-    .vol-card.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .opp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: #00a6d6;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
     }
+    .opp-card:hover::before { transform: scaleX(1); }
+    .opp-card:hover { box-shadow: 0 16px 40px rgba(0,51,41,0.16); }
 
-    .vol-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 18px 40px rgba(0, 60, 50, 0.18);
+    /* SVG icon circle */
+    .opp-icon-wrap {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: rgba(0,166,214,0.1);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      transition: background 0.3s;
     }
+    .opp-card:hover .opp-icon-wrap { background: rgba(0,166,214,0.18); }
+    .opp-icon-wrap svg { width: 26px; height: 26px; }
 
-    .vol-card-banner {
-      height: 10px;
-      background: var(--primary);
-    }
-
-    .vol-card-body {
-      padding: 28px;
-    }
-
-    .vol-icon {
-      font-size: 2.4rem;
-      margin-bottom: 14px;
-    }
-
-    .vol-card-body h3 {
-      color: var(--secondary);
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .vol-card-body p {
-      color: #5a7a74;
-      font-size: 0.9rem;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-
-    .vol-tag {
+    .opp-tag {
       display: inline-block;
-      background: rgba(0, 166, 214, 0.1);
-      color: var(--primary);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 30px;
-      margin-bottom: 18px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: #00a6d6;
+      border: 1px solid rgba(0,166,214,0.3);
+      padding: 3px 11px; border-radius: 20px;
+      margin-bottom: 14px;
+      background: rgba(0,166,214,0.06);
     }
+
+    .opp-card h3 { font-size: 1.12rem; font-weight: 700; color: var(--secondary); margin-bottom: 10px; }
+    .opp-card p { font-size: 0.86rem; color: #6b8a84; line-height: 1.65; margin-bottom: 22px; }
 
     .btn-apply {
       display: inline-block;
-      background: var(--primary);
+      background: var(--secondary);
       color: white;
       text-decoration: none;
       padding: 10px 24px;
-      border-radius: 6px;
-      font-size: 0.85rem;
+      border-radius: 7px;
+      font-size: 0.82rem;
       font-weight: 600;
       transition: background 0.3s, transform 0.2s;
+      font-family: 'Poppins', sans-serif;
     }
+    .btn-apply:hover { background: #00a6d6; transform: translateY(-2px); }
 
-    .btn-apply:hover {
-      background: var(--secondary);
-      transform: scale(1.04);
-    }
-
-    /* Stats bar */
-    .stats-bar {
-      background: var(--secondary);
-      color: white;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1px;
-      background: linear-gradient(135deg, #003329, #005543);
-    }
-
-    .stat-item {
-      padding: 40px 20px;
-      text-align: center;
-      background: transparent;
-    }
-
-    .stat-num {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .stat-label {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.7);
-      margin-top: 4px;
-    }
-
-    /* Sign-up form section */
+    /* ── Sign-up form ── */
     .signup-section {
-      background: var(--light-bg);
-      padding: 70px 5vw;
+      background: var(--secondary);
+      padding: 80px 5vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signup-deco {
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(0,166,214,0.06);
+      pointer-events: none;
     }
 
     .signup-inner {
-      max-width: 640px;
+      max-width: 680px;
       margin: 0 auto;
-      text-align: center;
+      position: relative; z-index: 2;
     }
 
-    .signup-inner h2 {
-      font-size: 2rem;
-      color: var(--secondary);
-      margin-bottom: 10px;
-    }
+    .signup-inner h2 { font-size: 2rem; color: white; margin-bottom: 10px; }
+    .signup-inner > p { color: rgba(255,255,255,0.55); font-size: 0.92rem; margin-bottom: 36px; }
 
-    .signup-inner p {
-      color: #6b8a84;
-      margin-bottom: 36px;
-      font-size: 0.95rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .form-row.single { grid-template-columns: 1fr; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-row.full { grid-template-columns: 1fr; }
 
     .vol-form input,
     .vol-form select,
     .vol-form textarea {
       width: 100%;
-      padding: 12px 16px;
-      border: 1.5px solid #d0ddd9;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 13px 16px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 9px;
+      font-size: 0.88rem;
       font-family: 'Poppins', sans-serif;
-      color: var(--secondary);
-      background: white;
-      transition: border-color 0.3s;
+      color: white;
+      background: rgba(255,255,255,0.07);
+      transition: border-color 0.3s, background 0.3s;
       outline: none;
     }
+    .vol-form input::placeholder,
+    .vol-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .vol-form select { color: rgba(255,255,255,0.6); }
+    .vol-form select option { color: #003329; background: white; }
 
     .vol-form input:focus,
     .vol-form select:focus,
     .vol-form textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(0, 166, 214, 0.12);
+      border-color: #00a6d6;
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(0,166,214,0.15);
     }
 
     .vol-form textarea { resize: vertical; min-height: 110px; }
 
     .btn-submit {
-      width: 100%;
-      padding: 14px;
-      background: var(--secondary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
+      width: 100%; padding: 14px;
+      background: #00a6d6; color: white;
+      border: none; border-radius: 9px;
+      font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; font-family: 'Poppins', sans-serif;
       transition: background 0.3s, transform 0.2s;
-      margin-top: 8px;
+      margin-top: 6px;
     }
-
-    .btn-submit:hover {
-      background: var(--primary);
-      transform: translateY(-2px);
-    }
+    .btn-submit:hover { background: white; color: var(--secondary); transform: translateY(-2px); }
 
     .success-msg {
       display: none;
-      background: #e6f9f0;
-      border: 1.5px solid #00c86a;
-      color: #007840;
+      background: rgba(0,200,106,0.15);
+      border: 1.5px solid rgba(0,200,106,0.4);
+      color: #4dffa0;
       padding: 14px 20px;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 0.9rem;
+      border-radius: 9px;
+      margin-top: 18px;
+      font-size: 0.88rem;
+      text-align: center;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .stats-strip { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
+      .hero-content h1 { font-size: 2rem; }
     }
+    @media (max-width: 480px) {
+      .stats-strip { grid-template-columns: 1fr; }
+    }
+  
+    /* ── Animated Gradient Nav ── */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header.sticky-header, header {
+      position: fixed !important;
+      top: 0; left: 0; width: 100%;
+      background: linear-gradient(270deg, #003329, #005543, #00796b, #00a6d6, #0077a8, #003329) !important;
+      background-size: 400% 400% !important;
+      animation: gradientShift 8s ease infinite !important;
+      border-bottom: none !important;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      height: 70px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.28) !important;
+    }
+    header nav a, header .navigation a {
+      text-decoration: none !important;
+      color: rgba(255,255,255,0.82) !important;
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-weight: 500;
+      font-size: .88rem;
+      transition: background .3s, color .3s !important;
+    }
+    header nav a:hover, header .navigation a:hover {
+      background: rgba(255,255,255,0.18) !important;
+      color: white !important;
+    }
+    header nav a.active, header .navigation a.active {
+      background: rgba(255,255,255,0.22) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+    }
+    /* Logo goes white on gradient bg */
+    header .un-logo,
+    header img[alt="United Nations Logo"] {
+      filter: brightness(0) invert(1) !important;
+    }
+    /* Profile border softened */
+    header .profile-link img,
+    header img[alt="Profile"] {
+      border-color: rgba(255,255,255,0.55) !important;
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="sticky-header">
-    <div class="logo-container">
-      <img src="logo.png" alt="United Nations Logo" class="un-logo">
-    </div>
-    <nav class="navigation">
-      <a href="index.html">Home</a>
-      <a href="Volunteer.html" class="active">Volunteer</a>
-      <a href="Table.html">Table</a>
-      <a href="feedback.html">Feedback</a>
-      <a href="Sitemap.html">Sitemap</a>
-      <a href="team.html">Team</a>
-    </nav>
-    <div class="profile-section">
-      <a href="userprofile.html" class="profile-link">
-        <img src="profile-pic.jpeg" alt="Profile">
-      </a>
-    </div>
-  </header>
+<!-- Header -->
+<header style="position:fixed;top:0;left:0;width:100%;background:white;border-bottom:2px solid #00a6d6;padding:0 30px;display:flex;justify-content:space-between;align-items:center;z-index:999;height:70px;box-shadow:0 2px 10px rgba(0,0,0,0.1);font-family:'Poppins',sans-serif;">
+  <div><img src="logo.png" alt="UN Logo" style="height:55px;width:auto;"></div>
+  <nav style="display:flex;gap:6px;">
+    <a href="index.html" style="text-decoration:none;color:#003329;padding:6px 14px;border-radius:4px;font-weight:500;font-size:.88rem;">Home</a>
+    <a href="Volunteer.html" style="text-decoration:none;background:#00a6d6;color:white;padding:6px 14px;border-radius:4px;font-weight:500;font-size:.88rem;">Volunteer</a>
+    <a href="Table.html" style="text-decoration:none;color:#003329;padding:6px 14px;border-radius:4px;font-weight:500;font-size:.88rem;">Table</a>
+    <a href="feedback.html" style="text-decoration:none;color:#003329;padding:6px 14px;border-radius:4px;font-weight:500;font-size:.88rem;">Feedback</a>
+    <a href="Sitemap.html" style="text-decoration:none;color:#003329;padding:6px 14px;border-radius:4px;font-weight:500;font-size:.88rem;">Sitemap</a>
+    <a href="team.html" style="text-decoration:none;color:#003329;padding:6px 14px;border-radius:4px;font-weight:500;font-size:.88rem;">Team</a>
+  </nav>
+  <div><a href="userprofile.html"><img src="profile-pic.jpeg" alt="Profile" style="width:46px;height:46px;border-radius:50%;border:2px solid #00a6d6;"></a></div>
+</header>
 
-  <!-- Hero -->
-  <section class="page-hero">
-    <h1>Volunteer with <span class="hero-accent">UN Goal 15</span></h1>
-    <p>Join thousands of passionate individuals protecting terrestrial ecosystems. Your time and skills can help restore forests, fight desertification, and preserve biodiversity worldwide.</p>
-  </section>
+<!-- Hero -->
+<section class="vol-hero" id="volHero">
+  <!-- Decorative rings -->
+  <div class="hero-deco-ring" style="width:500px;height:500px;top:-200px;right:-150px;"></div>
+  <div class="hero-deco-ring" style="width:300px;height:300px;bottom:-100px;right:100px;"></div>
+  <div class="hero-deco-ring" style="width:150px;height:150px;top:40px;right:280px;"></div>
 
-  <!-- Stats -->
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-num">12,400+</div>
-      <div class="stat-label">Active Volunteers</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">86</div>
-      <div class="stat-label">Countries Covered</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">3.2M</div>
-      <div class="stat-label">Trees Planted</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">540+</div>
-      <div class="stat-label">Active Projects</div>
-    </div>
+  <!-- Animated leaf SVG -->
+  <svg id="heroLeaf" style="position:absolute;right:8vw;top:50%;transform:translateY(-50%);opacity:0.08;pointer-events:none;" width="320" height="320" viewBox="0 0 320 320">
+    <path d="M160 10 C260 10 310 80 310 160 C310 260 230 310 160 310 C80 310 10 260 10 160 C10 80 60 10 160 10Z" fill="#00a6d6"/>
+    <path d="M160 10 L160 310" stroke="white" stroke-width="1.5" fill="none"/>
+    <path d="M10 160 C60 120 120 90 160 80 C200 90 260 120 310 160" stroke="white" stroke-width="1" fill="none"/>
+    <path d="M30 220 C80 180 130 160 160 155 C190 160 240 180 290 220" stroke="white" stroke-width="1" fill="none"/>
+    <path d="M50 270 C100 240 140 230 160 228 C180 230 220 240 270 270" stroke="white" stroke-width="1" fill="none"/>
+  </svg>
+
+  <div class="hero-content" id="heroContent">
+    <h1>Volunteer with<br><span class="hero-accent">UN Goal 15</span></h1>
+    <p>Join thousands of passionate individuals protecting terrestrial ecosystems. Your time and skills help restore forests, fight desertification, and preserve biodiversity.</p>
   </div>
+</section>
 
-  <!-- Opportunities -->
-  <section style="background: var(--light-bg);">
-    <div style="text-align:center; padding: 60px 5vw 10px;">
-      <h2 style="color:var(--secondary); font-size: 2rem; margin-bottom: 10px;">Volunteer Opportunities</h2>
-      <p style="color: #6b8a84; max-width: 560px; margin: 0 auto; font-size: 0.95rem;">Choose a cause that speaks to you. Every role matters in protecting life on land.</p>
+<!-- Stats strip -->
+<div class="stats-strip" id="statsStrip">
+  <div class="stat-cell">
+    <svg class="stat-icon" viewBox="0 0 42 42" fill="none">
+      <circle cx="21" cy="14" r="7" stroke="#00a6d6" stroke-width="2"/>
+      <path d="M7 38c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#00a6d6" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="stat-num" data-count="12400" data-suffix="+">0</span>
+    <div class="stat-label">Active Volunteers</div>
+  </div>
+  <div class="stat-cell">
+    <svg class="stat-icon" viewBox="0 0 42 42" fill="none">
+      <circle cx="21" cy="21" r="14" stroke="#00a6d6" stroke-width="2"/>
+      <ellipse cx="21" cy="21" rx="7" ry="14" stroke="#00a6d6" stroke-width="1.5"/>
+      <line x1="7" y1="21" x2="35" y2="21" stroke="#00a6d6" stroke-width="1.5"/>
+    </svg>
+    <span class="stat-num" data-count="86">0</span>
+    <div class="stat-label">Countries Covered</div>
+  </div>
+  <div class="stat-cell">
+    <svg class="stat-icon" viewBox="0 0 42 42" fill="none">
+      <path d="M21 6 C21 6 10 16 10 24 C10 30 15 36 21 36 C27 36 32 30 32 24 C32 16 21 6 21 6Z" stroke="#00a6d6" stroke-width="2" fill="none"/>
+      <path d="M21 36 L21 22" stroke="#00a6d6" stroke-width="1.5"/>
+      <path d="M21 28 C21 28 15 24 13 19" stroke="#00a6d6" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="stat-num" data-count="3.2" data-suffix="M">0</span>
+    <div class="stat-label">Trees Planted</div>
+  </div>
+  <div class="stat-cell">
+    <svg class="stat-icon" viewBox="0 0 42 42" fill="none">
+      <rect x="7" y="14" width="28" height="20" rx="3" stroke="#00a6d6" stroke-width="2"/>
+      <path d="M14 14 L14 10 C14 8 16 6 21 6 C26 6 28 8 28 10 L28 14" stroke="#00a6d6" stroke-width="2"/>
+      <circle cx="21" cy="24" r="3" fill="#00a6d6"/>
+    </svg>
+    <span class="stat-num" data-count="540" data-suffix="+">0</span>
+    <div class="stat-label">Active Projects</div>
+  </div>
+</div>
+
+<!-- Opportunities -->
+<section class="opps-section">
+  <div class="opps-header" id="oppsHeader">
+    <h2>Volunteer Opportunities</h2>
+    <p>Choose a cause that speaks to you. Every role matters in protecting life on land.</p>
+  </div>
+  <div class="opps-grid">
+
+    <div class="opp-card">
+      <div class="opp-icon-wrap">
+        <svg viewBox="0 0 26 26" fill="none" stroke="#00a6d6" stroke-width="1.8" stroke-linecap="round">
+          <path d="M13 3 C13 3 5 10 5 16 C5 20 8 23 13 23 C18 23 21 20 21 16 C21 10 13 3 13 3Z"/>
+          <line x1="13" y1="23" x2="13" y2="14"/>
+          <path d="M13 18 C11 16 8 14 7 11"/>
+        </svg>
+      </div>
+      <span class="opp-tag">Field Work</span>
+      <h3>Reforestation Teams</h3>
+      <p>Work hands-on in tree-planting drives across degraded landscapes. Weekend and long-term placements available in Sri Lanka and beyond.</p>
+      <a href="#signup" class="btn-apply">Apply Now</a>
     </div>
-    <div class="volunteer-grid">
 
-      <div class="vol-card">
-        <div class="vol-card-banner"></div>
-        <div class="vol-card-body">
-          <div class="vol-icon">🌳</div>
-          <span class="vol-tag">Field Work</span>
-          <h3>Reforestation Teams</h3>
-          <p>Work hands-on in tree-planting drives across degraded landscapes. Weekend and long-term placements available in Sri Lanka and beyond.</p>
-          <a href="#signup" class="btn-apply">Apply Now</a>
-        </div>
+    <div class="opp-card">
+      <div class="opp-icon-wrap">
+        <svg viewBox="0 0 26 26" fill="none" stroke="#00a6d6" stroke-width="1.8" stroke-linecap="round">
+          <rect x="3" y="5" width="20" height="16" rx="2"/>
+          <line x1="3" y1="10" x2="23" y2="10"/>
+          <line x1="9" y1="5" x2="9" y2="10"/>
+          <line x1="17" y1="5" x2="17" y2="10"/>
+          <path d="M8 15 L11 18 L18 13"/>
+        </svg>
       </div>
-
-      <div class="vol-card">
-        <div class="vol-card-banner"></div>
-        <div class="vol-card-body">
-          <div class="vol-icon">📊</div>
-          <span class="vol-tag">Remote / Online</span>
-          <h3>Data & Research</h3>
-          <p>Assist scientists with biodiversity data collection, satellite monitoring, and species tracking from anywhere in the world.</p>
-          <a href="#signup" class="btn-apply">Apply Now</a>
-        </div>
-      </div>
-
-      <div class="vol-card">
-        <div class="vol-card-banner"></div>
-        <div class="vol-card-body">
-          <div class="vol-icon">🎓</div>
-          <span class="vol-tag">Education</span>
-          <h3>Community Educators</h3>
-          <p>Run workshops and school programs to raise awareness about sustainable land use, habitat protection, and eco-friendly practices.</p>
-          <a href="#signup" class="btn-apply">Apply Now</a>
-        </div>
-      </div>
-
-      <div class="vol-card">
-        <div class="vol-card-banner"></div>
-        <div class="vol-card-body">
-          <div class="vol-icon">📸</div>
-          <span class="vol-tag">Media & Comms</span>
-          <h3>Content Creators</h3>
-          <p>Photograph, film, or write about conservation efforts. Help us spread the message through social media, blogs, and campaign materials.</p>
-          <a href="#signup" class="btn-apply">Apply Now</a>
-        </div>
-      </div>
-
-      <div class="vol-card">
-        <div class="vol-card-banner"></div>
-        <div class="vol-card-body">
-          <div class="vol-icon">🐾</div>
-          <span class="vol-tag">Wildlife</span>
-          <h3>Wildlife Monitoring</h3>
-          <p>Join ranger-led patrols and wildlife corridor monitoring programs to protect endangered species from poaching and habitat loss.</p>
-          <a href="#signup" class="btn-apply">Apply Now</a>
-        </div>
-      </div>
-
-      <div class="vol-card">
-        <div class="vol-card-banner"></div>
-        <div class="vol-card-body">
-          <div class="vol-icon">💻</div>
-          <span class="vol-tag">Tech</span>
-          <h3>Tech for Conservation</h3>
-          <p>Use your coding, GIS, or app development skills to build tools that help conservationists and communities manage land better.</p>
-          <a href="#signup" class="btn-apply">Apply Now</a>
-        </div>
-      </div>
-
+      <span class="opp-tag">Remote / Online</span>
+      <h3>Data &amp; Research</h3>
+      <p>Assist scientists with biodiversity data collection, satellite monitoring, and species tracking from anywhere in the world.</p>
+      <a href="#signup" class="btn-apply">Apply Now</a>
     </div>
-  </section>
 
-  <!-- Sign-up form -->
-  <section class="signup-section" id="signup">
-    <div class="signup-inner">
-      <h2>Sign Up to Volunteer</h2>
-      <p>Fill in the form below and our team will reach out within 3 business days.</p>
-      <form class="vol-form" id="volForm" onsubmit="handleSubmit(event)">
-        <div class="form-row">
-          <input type="text" placeholder="First Name" required />
-          <input type="text" placeholder="Last Name" required />
-        </div>
-        <div class="form-row">
-          <input type="email" placeholder="Email Address" required />
-          <input type="tel" placeholder="Phone Number" />
-        </div>
-        <div class="form-row single">
-          <select required>
-            <option value="" disabled selected>Select a Volunteer Role</option>
-            <option>Reforestation Teams</option>
-            <option>Data & Research</option>
-            <option>Community Educators</option>
-            <option>Content Creators</option>
-            <option>Wildlife Monitoring</option>
-            <option>Tech for Conservation</option>
-          </select>
-        </div>
-        <div class="form-row single">
-          <textarea placeholder="Tell us a bit about yourself and why you want to volunteer…"></textarea>
-        </div>
-        <button type="submit" class="btn-submit">Submit Application 🌿</button>
-        <div class="success-msg" id="successMsg">
-          ✅ Thank you! Your application has been received. We'll be in touch soon.
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="un-footer">
-    <div class="footer-top">
-      <div class="footer-left">
-        <img src="logo-en copy.png" alt="UN Logo" class="footer-logo" />
-        <span class="footer-brand">UN Goal 15</span>
+    <div class="opp-card">
+      <div class="opp-icon-wrap">
+        <svg viewBox="0 0 26 26" fill="none" stroke="#00a6d6" stroke-width="1.8" stroke-linecap="round">
+          <path d="M13 3 L15.5 9 L22 9.5 L17 14 L18.5 21 L13 17.5 L7.5 21 L9 14 L4 9.5 L10.5 9Z"/>
+        </svg>
       </div>
+      <span class="opp-tag">Education</span>
+      <h3>Community Educators</h3>
+      <p>Run workshops and school programs to raise awareness about sustainable land use, habitat protection, and eco-friendly practices.</p>
+      <a href="#signup" class="btn-apply">Apply Now</a>
     </div>
-    <hr class="footer-line" />
-    <div class="footer-links">
-      <a href="content_biodiversity.html">Biodiversity</a><span>|</span>
-      <a href="content_forests.html">Forests</a><span>|</span>
-      <a href="content_desertification.html">Desertification</a><span>|</span>
-      <a href="content_land.html">Land Degradation</a>
-    </div>
-  </footer>
 
-  <script>
-    // Card entrance animation
-    const cards = document.querySelectorAll('.vol-card');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 100);
+    <div class="opp-card">
+      <div class="opp-icon-wrap">
+        <svg viewBox="0 0 26 26" fill="none" stroke="#00a6d6" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="13" cy="10" r="5"/>
+          <path d="M13 15 L13 23"/>
+          <path d="M9 18 L17 18"/>
+          <rect x="8" y="5" width="10" height="8" rx="5" fill="none"/>
+        </svg>
+      </div>
+      <span class="opp-tag">Media &amp; Comms</span>
+      <h3>Content Creators</h3>
+      <p>Photograph, film, or write about conservation efforts. Help spread the message through social media, blogs, and campaign materials.</p>
+      <a href="#signup" class="btn-apply">Apply Now</a>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-icon-wrap">
+        <svg viewBox="0 0 26 26" fill="none" stroke="#00a6d6" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="9" cy="10" r="4"/>
+          <circle cx="18" cy="8" r="3"/>
+          <path d="M2 22 C2 17 5 15 9 15 C13 15 16 17 16 22"/>
+          <path d="M18 13 C21 13 24 15 24 20"/>
+        </svg>
+      </div>
+      <span class="opp-tag">Wildlife</span>
+      <h3>Wildlife Monitoring</h3>
+      <p>Join ranger-led patrols and wildlife corridor monitoring programs to protect endangered species from poaching and habitat loss.</p>
+      <a href="#signup" class="btn-apply">Apply Now</a>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-icon-wrap">
+        <svg viewBox="0 0 26 26" fill="none" stroke="#00a6d6" stroke-width="1.8" stroke-linecap="round">
+          <rect x="3" y="6" width="20" height="14" rx="2"/>
+          <line x1="3" y1="10" x2="23" y2="10"/>
+          <line x1="8" y1="14" x2="11" y2="14"/>
+          <line x1="8" y1="17" x2="14" y2="17"/>
+          <circle cx="19" cy="15.5" r="3" stroke="#00a6d6"/>
+          <line x1="21" y1="17.5" x2="23" y2="19.5"/>
+        </svg>
+      </div>
+      <span class="opp-tag">Tech</span>
+      <h3>Tech for Conservation</h3>
+      <p>Use your coding, GIS, or app development skills to build tools that help conservationists and communities manage land better.</p>
+      <a href="#signup" class="btn-apply">Apply Now</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Sign-up form -->
+<section class="signup-section" id="signup">
+  <div class="signup-deco"></div>
+  <div class="signup-inner" id="signupInner">
+    <h2>Sign Up to Volunteer</h2>
+    <p>Fill in the form below and our team will reach out within 3 business days.</p>
+    <form class="vol-form" id="volForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <input type="text" placeholder="First Name" required />
+        <input type="text" placeholder="Last Name" required />
+      </div>
+      <div class="form-row">
+        <input type="email" placeholder="Email Address" required />
+        <input type="tel" placeholder="Phone Number" />
+      </div>
+      <div class="form-row full">
+        <select required>
+          <option value="" disabled selected>Select a Volunteer Role</option>
+          <option>Reforestation Teams</option>
+          <option>Data &amp; Research</option>
+          <option>Community Educators</option>
+          <option>Content Creators</option>
+          <option>Wildlife Monitoring</option>
+          <option>Tech for Conservation</option>
+        </select>
+      </div>
+      <div class="form-row full">
+        <textarea placeholder="Tell us about yourself and why you want to volunteer…"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Submit Application</button>
+      <div class="success-msg" id="successMsg">
+        Your application has been received. We will be in touch soon.
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background:#2b2b2b;color:white;padding:25px 30px;border-top:4px solid #00a6d6;font-family:'Poppins',sans-serif;">
+  <div style="display:flex;align-items:center;gap:10px;padding-bottom:14px;">
+    <img src="logo-en copy.png" alt="UN Logo" style="height:40px;filter:brightness(0) invert(1);opacity:.85;">
+    <span style="font-size:1.1em;font-weight:600;">UN Goal 15</span>
+  </div>
+  <hr style="border:none;border-top:1px solid rgba(255,255,255,.18);margin:10px 0;">
+  <div style="text-align:center;font-size:.85em;">
+    <a href="content_biodiversity.html" style="color:rgba(255,255,255,.75);text-decoration:none;margin:0 8px;">Biodiversity</a><span style="color:rgba(255,255,255,.25);">|</span>
+    <a href="content_forests.html" style="color:rgba(255,255,255,.75);text-decoration:none;margin:0 8px;">Forests</a><span style="color:rgba(255,255,255,.25);">|</span>
+    <a href="content_desertification.html" style="color:rgba(255,255,255,.75);text-decoration:none;margin:0 8px;">Desertification</a><span style="color:rgba(255,255,255,.25);">|</span>
+    <a href="content_land.html" style="color:rgba(255,255,255,.75);text-decoration:none;margin:0 8px;">Land Degradation</a>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── Hero
+const tl = gsap.timeline();
+tl.from("#heroContent h1",   { duration: 1,    y: 60, opacity: 0, ease: "power3.out" })
+  .from("#heroContent p",    { duration: 0.8,  y: 30, opacity: 0, ease: "power2.out" }, "-=0.5")
+  .from("#heroLeaf",         { duration: 1.4,  scale: 0.5, opacity: 0, rotation: -30, ease: "elastic.out(1, 0.5)", transformOrigin: "center" }, "-=0.8");
+
+// Decorative rings pulse
+gsap.to(".hero-deco-ring", {
+  scale: 1.05, opacity: 0.4,
+  duration: 3, ease: "sine.inOut",
+  repeat: -1, yoyo: true, stagger: 0.8
+});
+
+// ── Stats counter
+ScrollTrigger.create({
+  trigger: ".stats-strip",
+  start: "top 85%",
+  once: true,
+  onEnter: () => {
+    document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+      const raw    = el.dataset.count;
+      const suffix = el.dataset.suffix || '';
+      const isFloat = raw.includes('.');
+      const target = parseFloat(raw);
+      gsap.to({ val: 0 }, {
+        val: target, duration: 2, ease: "power2.out",
+        onUpdate: function() {
+          const v = this.targets()[0].val;
+          el.textContent = (isFloat ? v.toFixed(1) : Math.round(v)) + suffix;
         }
       });
-    }, { threshold: 0.1 });
-    cards.forEach(c => observer.observe(c));
+    });
+  }
+});
 
-    // Form submission
-    function handleSubmit(e) {
-      e.preventDefault();
-      document.getElementById('successMsg').style.display = 'block';
-      e.target.reset();
-      document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  </script>
+// ── Section header
+gsap.from("#oppsHeader", {
+  scrollTrigger: { trigger: "#oppsHeader", start: "top 85%" },
+  duration: 0.8, y: 40, opacity: 0, ease: "power2.out"
+});
+
+// ── Cards stagger
+document.querySelectorAll('.opp-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: "top 90%" },
+    duration: 0.7, y: 50, opacity: 0, scale: 0.96,
+    ease: "power2.out", delay: i * 0.09
+  });
+});
+
+// ── Form section
+gsap.from("#signupInner h2", {
+  scrollTrigger: { trigger: "#signupInner", start: "top 80%" },
+  duration: 0.8, y: 30, opacity: 0, ease: "power2.out"
+});
+gsap.from("#signupInner .vol-form", {
+  scrollTrigger: { trigger: "#signupInner", start: "top 75%" },
+  duration: 0.9, y: 40, opacity: 0, ease: "power2.out", delay: 0.2
+});
+
+// ── Card hover tilt
+document.querySelectorAll('.opp-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    gsap.to(card, { rotateY: x * 8, rotateX: -y * 8, duration: 0.3, transformPerspective: 700, ease: "power1.out" });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: "power2.out" });
+  });
+});
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const msg = document.getElementById('successMsg');
+  msg.style.display = 'block';
+  gsap.from(msg, { duration: 0.5, y: 10, opacity: 0, ease: "power2.out" });
+  e.target.reset();
+}
+</script>
 </body>
 </html>
