@@ -201,3 +201,37 @@ header.sticky-header {
   .navigation { flex-wrap: wrap; justify-content: center; }
   .page-hero h1 { font-size: 2rem; }
 }
+
+/* ── Animated Gradient Nav (override) ── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+header.sticky-header {
+  background: linear-gradient(270deg, #003329, #005543, #00796b, #00a6d6, #0077a8, #003329) !important;
+  background-size: 400% 400% !important;
+  animation: gradientShift 8s ease infinite !important;
+  border-bottom: none !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.28) !important;
+}
+
+header.sticky-header .navigation a {
+  color: rgba(255,255,255,0.82) !important;
+}
+header.sticky-header .navigation a:hover {
+  background: rgba(255,255,255,0.18) !important;
+  color: white !important;
+}
+header.sticky-header .navigation a.active {
+  background: rgba(255,255,255,0.22) !important;
+  color: white !important;
+  font-weight: 700 !important;
+}
+header.sticky-header .un-logo {
+  filter: brightness(0) invert(1) !important;
+}
+header.sticky-header .profile-link img {
+  border-color: rgba(255,255,255,0.55) !important;
+}

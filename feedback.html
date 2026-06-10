@@ -264,6 +264,58 @@
       .feedback-layout { grid-template-columns: 1fr; gap: 36px; }
       .form-row-2 { grid-template-columns: 1fr; }
     }
+  
+    /* ── Animated Gradient Nav ── */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header.sticky-header, header {
+      position: fixed !important;
+      top: 0; left: 0; width: 100%;
+      background: linear-gradient(270deg, #003329, #005543, #00796b, #00a6d6, #0077a8, #003329) !important;
+      background-size: 400% 400% !important;
+      animation: gradientShift 8s ease infinite !important;
+      border-bottom: none !important;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      height: 70px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.28) !important;
+    }
+    header nav a, header .navigation a {
+      text-decoration: none !important;
+      color: rgba(255,255,255,0.82) !important;
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-weight: 500;
+      font-size: .88rem;
+      transition: background .3s, color .3s !important;
+    }
+    header nav a:hover, header .navigation a:hover {
+      background: rgba(255,255,255,0.18) !important;
+      color: white !important;
+    }
+    header nav a.active, header .navigation a.active {
+      background: rgba(255,255,255,0.22) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+    }
+    /* Logo goes white on gradient bg */
+    header .un-logo,
+    header img[alt="United Nations Logo"] {
+      filter: brightness(0) invert(1) !important;
+    }
+    /* Profile border softened */
+    header .profile-link img,
+    header img[alt="Profile"] {
+      border-color: rgba(255,255,255,0.55) !important;
+    }
+
   </style>
 </head>
 <body>
