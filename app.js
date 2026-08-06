@@ -22,7 +22,7 @@ window.onclick = function(event) {
         for (var i = 0; i < dropdowns.length; i++) {
             var openDropdown = dropdowns[i];
             if (!openDropdown.classList.contains('nav-hide')) {
-                openDropdown.classList.add('nav-hide');
+
             }
         }
     }
