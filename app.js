@@ -21,7 +21,8 @@ window.onclick = function(event) {
         var dropdowns = document.getElementsByClassName("dropdown");
         for (var i = 0; i < dropdowns.length; i++) {
             var openDropdown = dropdowns[i];
-            if (!openDropdown.classList.contains('nav-hide')) {
+            if (!openDropdown.classList.contains('nav-hide'))                
+                openDropdown.classList.add('nav-hide');
 
             }
         }
